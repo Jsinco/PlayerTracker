@@ -7,11 +7,12 @@ import java.nio.file.Files
 
 class FileManager(val fileName: String) {
 
-    private var file: File = File(plugin.dataFolder, fileName)
+    var file: File = File(plugin.dataFolder, fileName)
 
     fun setFolder(folder: String) {
         file = File(plugin.dataFolder, "$folder${File.pathSeparator}$fileName")
     }
+
 
     fun generateFile(): Boolean {
         var returnValue = false
@@ -44,10 +45,12 @@ class FileManager(val fileName: String) {
         return YamlConfiguration.loadConfiguration(file)
     }
 
-
+    fun saveFileYaml(yamlConfiguration: YamlConfiguration) {
+        yamlConfiguration.save(file)
+    }
 
     companion object {
-        val plugin: PlayerTracker = PlayerTracker.getPlugin()
+        val plugin: PlayerTracker = PlayerTracker.plugin
 
         fun loadDefaultConfig(reload: Boolean) {
             if (!reload) {
